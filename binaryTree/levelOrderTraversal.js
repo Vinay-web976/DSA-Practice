@@ -47,7 +47,7 @@ function inorder(root, level, map) {
   inorder(root.right, level + 1, map);
 }
 
-function levelOrder(node) {
+function levelOrderLineByLine(node) {
   //your code here
   let ans = [];
   let temp = [];
@@ -71,4 +71,44 @@ function levelOrder(node) {
   return ans;
 }
 
-levelOrder(root);
+function levelOrderTraversalForLoop(node) {
+  const ans = [];
+  let temp = [];
+  if (node === null) return ans;
+  let queue = new Queue();
+  queue.enque(node);
+  while (!queue.isEmpty()) {
+    let count = queue.size();
+    for (let i = 0; i < count; i++) {
+      let curr = queue.deque();
+      if (curr.left !== null) queue.enque(curr.left);
+      if (curr.right !== null) queue.enque(curr.right);
+      temp.push(curr.key);
+    }
+    ans.push(temp);
+    temp = [];
+  }
+  return ans;
+}
+
+function zigzagTraversal(node) {
+  const ans = [];
+  let row = 0;
+  if (node === null) return ans;
+  let queue = new Queue();
+  queue.enque(node);
+  while (!queue.isEmpty()) {
+    let count = queue.size();
+    const temp = [];
+    for (let i = 0; i < count; i++) {
+      let curr = queue.deque();
+      if (curr.left !== null) queue.enque(curr.left);
+      if (curr.right !== null) queue.enque(curr.right);
+      temp.push(curr.key);
+    }
+    row % 2 === 0 ? ans.push(...temp) : ans.push(...temp.reverse());
+    row++;
+  }
+  return ans;
+}
+console.log(zigzagTraversal(root));
